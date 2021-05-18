@@ -23,24 +23,5 @@ var bellydata = d3.json("samples.json").then(function(data) {
         el.textContent = opt;
         el.value = opt;
         select.appendChild(el);
-    }​
-};
-
-
-
-
-
-//var select = document.getElementById("selDataset");
-
-// for (var i = 0; i < names.lenghth; i++) {
-//     console.log(names[i]);
-// }
-//     var opt = names[i];
-//     var el = document.createElement("option");
-//     el.textContent = opt;
-//     el.Value = opt;
-//     select.appendChild(el);
-// }
-
-
-
+    }
+});
