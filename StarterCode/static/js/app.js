@@ -1,21 +1,16 @@
 
-//Load samples.json file
+
+
+
+
+
+
+//Populate dropdown with sampleIDs
 
 var bellydata = d3.json("samples.json").then(function(data) {
     console.log("hello");
     console.log(data);
     var names = Object.values(data.names);
-    console.log(names);
-    //var id = Object.values(data.sample[0]);
-    var id = data.samples.map(row => row.id);
-    var otu_ids = data.samples.map(row => row.otu_ids);
-    var sample_values = data.samples.map(row => row.sample_values);
-    var otu_labels = data.samples.map(row => row.otu_labels);
-    console.log(id);
-    console.log(otu_ids);
-    console.log(sample_values);
-    console.log(otu_labels);
-    // Populate dropdown with sample IDs
     var select = document.getElementById("selDataset"); 
     for(var i = 0; i < names.length; i++) {
         var opt = names[i];
@@ -24,4 +19,40 @@ var bellydata = d3.json("samples.json").then(function(data) {
         el.value = opt;
         select.appendChild(el);
     }
+
+})
+
+
+
+
+d3.select("#selDataset").on("change", optionChanged);
+
+function optionChanged() {
+    var dropdownMenu = d3.select("#selDataset");
+    var selID = d3.event.target.value;
+    console.log(selID)
+}
+
+
+
+
+
+//Build metadata list
+d3.json("samples.json").then(function(data) {
+    // var dropdownMenu = d3.select("#selDataset");
+    // var selID = dropdownMenu.property("value");
+    var metadata = Object.values(data.metadata);
+    var selectedMeta = search(selID, metadata);
+    console.log(metadata);
 });
+
+
+function search(selID, metadata){
+    for (var i=0; i < metadata.length; i++) {
+        if (metadata[i].id === selID) {
+            return myArray[i];
+        }
+    }
+}
+
+
