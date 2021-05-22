@@ -1,78 +1,216 @@
 
+
 function init() {
-    var bardata = [{
-      x: [163, 126, 113, 78, 71, 51, 50, 47, 40, 40],
-      y: [1167, 2859, 482, 2264, 41, 1189, 352, 189, 2318, 1977],
-      type: "bar",
-      orientation: "h"
-    }];
-  
-    var barlayout = {
-        height: 500,
-        width: 500
-    }   
-  
-    Plotly.newPlot("bar", bardata, barlayout);
 
 
-    var bubbledata = [{
-        x: [1167, 2859, 482, 2264, 41, 1189, 352, 189, 2318, 1977, 3450, 874, 1959, 2191, 1950, 2077, 2275, 944, 2184, 2244, 2024, 2419, 2811, 165, 2782, 2247, 2011, 2396, 830, 2964, 1795, 2722, 307, 2178, 2908, 1193, 2167, 1208, 2039, 1274, 2739, 2737, 1314, 1962, 2186, 2335, 2936, 907, 833, 2483, 2475, 2491, 2291, 159, 2571, 2350, 2342, 2546, 725, 170, 1505, 513, 259, 1169, 258, 1232, 1497, 1498, 1503, 412, 2235, 1960, 1968, 121, 2065, 340, 2110, 2188, 357, 342],
-        y: [163, 126, 113, 78, 71, 51, 50, 47, 40, 40, 37, 36, 30, 28, 25, 23, 22, 19, 19, 14, 13, 13, 13, 12, 12, 11, 11, 11, 10, 10, 10, 8, 7, 7, 7, 6, 5, 5, 5, 4, 4, 4, 3, 3, 3, 3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
-        mode: 'markers',
-        marker: {
-        size: [163, 126, 113, 78, 71, 51, 50, 47, 40, 40, 37, 36, 30, 28, 25, 23, 22, 19, 19, 14, 13, 13, 13, 12, 12, 11, 11, 11, 10, 10, 10, 8, 7, 7, 7, 6, 5, 5, 5, 4, 4, 4, 3, 3, 3, 3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
-        color: [1167, 2859, 482, 2264, 41, 1189, 352, 189, 2318, 1977, 3450, 874, 1959, 2191, 1950, 2077, 2275, 944, 2184, 2244, 2024, 2419, 2811, 165, 2782, 2247, 2011, 2396, 830, 2964, 1795, 2722, 307, 2178, 2908, 1193, 2167, 1208, 2039, 1274, 2739, 2737, 1314, 1962, 2186, 2335, 2936, 907, 833, 2483, 2475, 2491, 2291, 159, 2571, 2350, 2342, 2546, 725, 170, 1505, 513, 259, 1169, 258, 1232, 1497, 1498, 1503, 412, 2235, 1960, 1968, 121, 2065, 340, 2110, 2188, 357, 342]
-        }
-    }];
-  
-  
-    var bubblelayout = {
-        showlegend: false,
-        height: 600,
-        width: 1200
-    };
+    //Display hor bar chart
+    d3.json("samples.json").then(function(data) {
+        var otu_ids = data.samples.map(row => row.otu_ids);
+        var sample_values = data.samples.map(row => row.sample_values);
+        var otu_labels = data.samples.map(row => row.otu_labels);
+        var otuIDText = otu_ids.map(String);
+        console.log(otuIDText);
+        console.log("hello");
 
-    Plotly.newPlot("bubble", bubbledata, bubblelayout);
+        var bardata = [{
+            x: sample_values[0].slice(0,10).reverse(),
+            y: `OTU ${otu_ids[0].slice(0,10)}`,
+            text: otu_labels[0].slice(0,10),
+            type: "bar",
+            orientation: "h"
+        }]
+
+        var barlayout = {
+            height: 500,
+            width: 500
+        }   
+        Plotly.newPlot("bar", bardata, barlayout);
+
+    })
+
+
+    //Display bubble chart
+    d3.json("samples.json").then(function(data) {
+        var otu_ids = data.samples.map(row => row.otu_ids);
+        var sample_values = data.samples.map(row => row.sample_values);
+        var otu_labels = data.samples.map(row => row.otu_labels);
+
+        var bubbledata = [{
+            x: otu_ids[0],
+            y: sample_values[0],
+            mode: 'markers',
+            marker: {
+            size: sample_values[0],
+            color: otu_ids[0]
+            }
+        }];
+      
+      
+        var bubblelayout = {
+            showlegend: false,
+            height: 600,
+            width: 1200
+        };
+      
+        Plotly.newPlot("bubble", bubbledata, bubblelayout);
+
+    })
+
+
+
 };
 
-init()
 
-
-
-
-
-
-
-
-
-
-
-
-// function init() {
-//     //Display hor bar chart
+// function initBubble() {
+//     //Display bubble chart
 //     d3.json("samples.json").then(function(data) {
 //         var otu_ids = data.samples.map(row => row.otu_ids);
 //         var sample_values = data.samples.map(row => row.sample_values);
 //         var otu_labels = data.samples.map(row => row.otu_labels);
-//         var otuIDText = otu_ids.map(String);
-//         console.log(otuIDText);
 
-//         var bardata = [{
-//             x: sample_values[0].slice(0,10).reverse(),
-//             y: `OTU ${otu_ids[0].slice(0,10)}`,
-//             text: otu_labels[0].slice(0,10),
-//             type: "bar",
-//             orientation: "h"
-//         }]
+//         var bubbledata = [{
+//             x: otu_ids[0],
+//             y: sample_values[0],
+//             mode: 'markers',
+//             marker: {
+//             size: sample_values[0],
+//             color: otu_ids[0]
+//             }
+//         }];
+      
+      
+//         var bubblelayout = {
+//             showlegend: false,
+//             height: 600,
+//             width: 1200
+//         };
+      
+//       Plotly.newPlot("bubble", bubbledata, bubblelayout);
+    
+//     });
+// }
 
-//         var barlayout = {
-//             height: 500,
-//             width: 500
-//         }   
-//     })
 
-//     Plotly.newPlot("bar", bardata, barlayout);
+//Populate dropdown with sampleIDs
 
-// };
+var bellydata = d3.json("samples.json").then(function(data) {
+    console.log(data);
+    var names = Object.values(data.names);
+    var select = document.getElementById("selDataset"); 
+    for(var i = 0; i < names.length; i++) {
+        var opt = names[i];
+        var el = document.createElement("option");
+        el.textContent = opt;
+        el.value = opt;
+        select.appendChild(el);
+    }
+
+})
 
 
+
+//Grab selection in dropdown
+
+d3.select("#selDataset").on("change", optionChanged);
+
+function optionChanged() {
+
+
+    var selID = d3.event.target.value;
+    console.log(selID);
+
+    updatePlotly(selID);
+}
+
+function updatePlotly(selID) {
+    d3.json("samples.json").then(function(data) {
+        var samples = data.samples;
+        var metadata = data.metadata;
+        var [filteredSample] = samples.filter(sample => sample.id === selID);
+        var [filteredMeta] = metadata.filter(sample => (sample.id).toString() === selID);
+        var otu_ids = filteredSample.otu_ids;
+        var sample_values = filteredSample.sample_values;
+        var otu_labels = filteredSample.otu_labels;
+        var metaid = filteredMeta.id;
+        var metaeth = filteredMeta.ethnicity;
+        var metagen = filteredMeta.gender;
+        var metaage = filteredMeta.age;
+        var metaloc = filteredMeta.location;
+        var metabb = filteredMeta.bbtype;
+        var metawfreq = filteredMeta.wfreq;
+
+        // console.log(filteredSample);
+        // console.log(metadata);
+        // console.log(filteredMeta);
+
+        console.log(otu_ids);
+        //console.log(sample_values);
+        // console.log(otu_labels);
+
+
+        var list = d3.select(".panel-body");
+
+        list.html("");
+
+        list.append("li").text(`ID: ${metaid}`);
+        list.append("li").text(`ETHNICITY: ${metaeth}`);
+        list.append("li").text(`GENDER: ${metagen}`);
+        list.append("li").text(`AGE: ${metaage}`);
+        list.append("li").text(`LOCATION: ${metaloc}`);
+        list.append("li").text(`BBTYPE: ${metabb}`);
+        list.append("li").text(`WFREQ: ${metawfreq}`);
+
+
+        var bardata = [{
+            x: sample_values.slice(0,10).reverse(),
+            y: `OTU ${otu_ids.slice(0,10)}`,
+            text: otu_labels.slice(0,10),
+            type: "bar",
+            orientation: "h"
+        }]
+    
+        var barlayout = {
+            height: 500,
+            width: 500
+        }
+
+
+
+
+
+        var bubbledata = [{
+            x: otu_ids,
+            y: sample_values,
+            mode: 'markers',
+            marker: {
+            size: sample_values,
+            color: otu_ids
+            }
+        }];
+
+        console.log(bubbledata)
+
+
+
+        var bubblelayout = {
+            showlegend: false,
+            height: 600,
+            width: 1200
+        };
+
+        Plotly.newPlot("bar", bardata, barlayout);
+
+        Plotly.newPlot("bubble", bubbledata, bubblelayout);
+
+       
+
+
+    })
+        
+
+
+};
+
+
+
+init();
